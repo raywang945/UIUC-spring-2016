@@ -20,16 +20,9 @@ app.get('/', (req, res) ->
     res.render('index.html')
 )
 
-io.on('connection', (socket) ->
-    subscriber.on('message', (channel, message) ->
-        console.log('FROM REDIS: \t' + message)
-        io.emit('test', message)
-    )
-
-    #socket.on('test', (msg) ->
-        #console.log('message: ' + msg)
-        #io.emit('test', 'from server')
-    #)
+subscriber.on('message', (channel, message) ->
+    console.log('FROM REDIS: \t' + message)
+    io.emit('test', message)
 )
 
 http.listen(8080)
