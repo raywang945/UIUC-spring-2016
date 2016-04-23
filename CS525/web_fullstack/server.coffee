@@ -2,15 +2,10 @@ express = require('express')
 app     = express()
 http    = require('http').Server(app)
 io      = require('socket.io')(http)
-#redis  = require('redis')
+redis   = require('redis')
 
-#subscriber = redis.createClient(7000, '172.22.152.37')
-
-#subscriber.on('message', (channel, message) ->
-    #console.log(channel + '\t' + message)
-#)
-
-#subscriber.subscribe('channel')
+subscriber = redis.createClient(7000, '172.22.152.37')
+subscriber.subscribe('channel')
 
 app.set('views', __dirname + '/frontend/build')
 app.use(express.static(__dirname + '/frontend/build'))
@@ -26,16 +21,15 @@ app.get('/', (req, res) ->
 )
 
 io.on('connection', (socket) ->
-    console.log('connected')
-    socket.on('test', (msg) ->
-        console.log('message: ' + msg)
-        io.emit('test', 'from server')
+    subscriber.on('message', (channel, message) ->
+        console.log('FROM REDIS: \t' + message)
+        io.emit('test', message)
     )
-    i = 0
-    setInterval(->
-        io.emit('test', i)
-        i = i + 1
-    , 1000)
+
+    #socket.on('test', (msg) ->
+        #console.log('message: ' + msg)
+        #io.emit('test', 'from server')
+    #)
 )
 
 http.listen(8080)
