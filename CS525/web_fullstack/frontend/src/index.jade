@@ -5,14 +5,11 @@ html
         link(rel='stylesheet', type='text/css', href='styles/main.css')
     body
         .row
-            #one.col-md-4
-                p This is a test
-            #two.col-md-4
-                p This is a test
-            #three.col-md-4
-                p This is a test
-        #map
+            .col-md-1
+            .col-md-10
+                #map.center-block
+            .col-md-1
         my-app
         script(src='scripts/vendor.js')
         script(src='scripts/app.js')
-        //script(async, defer, src='https://maps.googleapis.com/maps/api/js?key=AIzaSyD-JTiPLlLf1-GyN5WD4zHKmWFlDQDk8wE&callback=initMap')
+        script(async, defer, src='https://maps.googleapis.com/maps/api/js?key=AIzaSyD-JTiPLlLf1-GyN5WD4zHKmWFlDQDk8wE&callback=initMap')

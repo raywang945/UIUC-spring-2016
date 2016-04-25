@@ -1,3 +1,18 @@
+var map;
+
+function initMap() {
+  map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 2,
+    center: { lat: 30, lng: 5 },
+    scrollwheel: false,
+    draggable: false,
+    mapTypeControl: false,
+    zoomControl: false,
+    disableDoubleClickZoom: true,
+    streetViewControl: false
+  });
+}
+
 System.config({
   packages: {
     scripts: {
