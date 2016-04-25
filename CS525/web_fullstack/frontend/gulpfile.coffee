@@ -21,20 +21,21 @@ gulp.task 'scss', ->
         .pipe(gulp.dest('./build/styles'))
 
 gulp.task 'typescript', ->
-    gulp.src('./src/**/*.ts')
-        .pipe(ts(
-            moduleResolution: 'node',
-            noImplicitAny: true,
-            out: 'main.js'
-        ))
-        .pipe(gulp.dest('./build/scripts'))
+    tsProject = ts.createProject('./tsconfig.json')
+    tsResult = tsProject.src()
+                .pipe(ts(tsProject))
+    tsResult.js.pipe(gulp.dest('./build/scripts'))
 
 gulp.task 'vendor', ->
     gulp.src([
             './node_modules/jquery/dist/jquery.js',
             './node_modules/socket.io-client/socket.io.js',
             './node_modules/underscore/underscore.js',
-            './node_modules/bootstrap/dist/js/bootstrap.js'
+            './node_modules/bootstrap/dist/js/bootstrap.js',
+            './node_modules/angular2/bundles/angular2-polyfills.js',
+            './node_modules/systemjs/dist/system.src.js',
+            './node_modules/rxjs/bundles/Rx.js',
+            './node_modules/angular2/bundles/angular2.dev.js'
         ])
         .pipe(concat('vendor.js'))
         .pipe(gulp.dest('./build/scripts'))

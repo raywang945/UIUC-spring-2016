@@ -1,7 +1,4 @@
-//import io = require("socket.io-client");
+import {bootstrap} from 'angular2/platform/browser';
+import {GoogleMapComponent} from './google.map.component';
 
-var socket = io();
-socket.emit("test", "ray wang");
-socket.on("test", function(msg:string) {
-    console.log(msg);
-});
+bootstrap(GoogleMapComponent);
