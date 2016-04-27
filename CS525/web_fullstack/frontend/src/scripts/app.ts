@@ -25,7 +25,17 @@ System.import('scripts/main')
 .then(null, console.error.bind(console));
 
 var socket = io();
-socket.emit('test', 'ray wang');
-socket.on('test', function(msg:string) {
-  console.log(msg);
+socket.on('world.tweet', function(tweet:any) {
+  var marker = new google.maps.Marker({
+    position: tweet.position,
+    map: map
+  });
+  var infoWindow = new google.maps.InfoWindow({
+    content: tweet.content,
+    maxWidth: 200
+  });
+  infoWindow.open(map, marker);
+  setTimeout(function() {
+    marker.setMap(null);
+  }, 10000);
 });

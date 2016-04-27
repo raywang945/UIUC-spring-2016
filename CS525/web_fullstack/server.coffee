@@ -21,8 +21,15 @@ app.get('/', (req, res) ->
 )
 
 subscriber.on('message', (channel, message) ->
-    console.log('FROM REDIS: \t' + message)
-    io.emit('test', message)
+    tmp = JSON.parse(message)
+    message =
+        content: tmp.tweetText
+        position:
+            lat: parseFloat(tmp.latitude)
+            lng: parseFloat(tmp.longitude)
+    console.log('==================')
+    console.log(message)
+    io.emit('world.tweet', message)
 )
 
 http.listen(8080)
