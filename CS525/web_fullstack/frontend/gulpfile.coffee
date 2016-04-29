@@ -50,4 +50,5 @@ gulp.task 'watch', ->
     gulp.watch('./src/**/*.scss', ['scss'])
     gulp.watch('./src/**/*.ts', ['typescript'])
 
-gulp.task 'default', ['vendor', 'jade', 'scss', 'typescript', 'watch']
+gulp.task 'production', ['vendor', 'jade', 'scss', 'typescript']
+gulp.task 'default', ['production', 'watch']
