@@ -7,4 +7,5 @@ Prerequisite
 Instructions
 ======
     npm install
+    typings install
 Execute `gulp production` to generate `build/` directory.
