@@ -1,6 +1,6 @@
 gulp   = require('gulp')
 pug    = require('gulp-pug')
-scss   = require('gulp-scss')
+sass   = require('gulp-sass')
 ts     = require('gulp-typescript')
 debug  = require('gulp-debug')
 gulpif = require('gulp-if')
@@ -14,10 +14,10 @@ gulp.task 'pug', ->
         ))
         .pipe(gulp.dest('./build'))
 
-gulp.task 'scss', ->
+gulp.task 'sass', ->
     gulp.src('./src/styles/**/*.scss')
-        .pipe(gulpif(argv.debug, debug({ title: 'scss' })))
-        .pipe(scss())
+        .pipe(gulpif(argv.debug, debug({ title: 'sass' })))
+        .pipe(sass())
         .pipe(gulp.dest('./build/styles'))
 
 gulp.task 'typescript', ->
@@ -47,8 +47,8 @@ gulp.task 'vendor', ->
 
 gulp.task 'watch', ->
     gulp.watch('./src/**/*.pug', ['pug'])
-    gulp.watch('./src/**/*.scss', ['scss'])
+    gulp.watch('./src/**/*.scss', ['sass'])
     gulp.watch('./src/**/*.ts', ['typescript'])
 
-gulp.task 'production', ['vendor', 'pug', 'scss', 'typescript']
+gulp.task 'production', ['vendor', 'pug', 'sass', 'typescript']
 gulp.task 'default', ['production', 'watch']
