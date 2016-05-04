@@ -1,5 +1,5 @@
 gulp   = require('gulp')
-jade   = require('gulp-jade')
+pug    = require('gulp-pug')
 scss   = require('gulp-scss')
 ts     = require('gulp-typescript')
 debug  = require('gulp-debug')
@@ -7,9 +7,9 @@ gulpif = require('gulp-if')
 argv   = require('yargs').argv
 concat = require('gulp-concat')
 
-gulp.task 'jade', ->
-    gulp.src('./src/**/*.jade')
-        .pipe(jade(
+gulp.task 'pug', ->
+    gulp.src('./src/**/*.pug')
+        .pipe(pug(
             pretty: true
         ))
         .pipe(gulp.dest('./build'))
@@ -46,9 +46,9 @@ gulp.task 'vendor', ->
         .pipe(gulp.dest('./build/styles'))
 
 gulp.task 'watch', ->
-    gulp.watch('./src/**/*.jade', ['jade'])
+    gulp.watch('./src/**/*.pug', ['pug'])
     gulp.watch('./src/**/*.scss', ['scss'])
     gulp.watch('./src/**/*.ts', ['typescript'])
 
-gulp.task 'production', ['vendor', 'jade', 'scss', 'typescript']
+gulp.task 'production', ['vendor', 'pug', 'scss', 'typescript']
 gulp.task 'default', ['production', 'watch']
