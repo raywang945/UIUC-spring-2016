@@ -6,6 +6,7 @@ redis   = require('redis')
 
 subscriber = redis.createClient(7000, '172.22.152.37')
 subscriber.subscribe('channel')
+subscriber.subscribe('ranking')
 
 app.set('views', __dirname + '/frontend/build')
 app.use(express.static(__dirname + '/frontend/build'))
@@ -21,15 +22,21 @@ app.get('/', (req, res) ->
 )
 
 subscriber.on('message', (channel, message) ->
-    tmp = JSON.parse(message)
-    message =
-        content: tmp.tweetText
-        position:
-            lat: parseFloat(tmp.latitude)
-            lng: parseFloat(tmp.longitude)
     console.log('==================')
-    console.log(message)
-    io.emit('world.tweet', message)
+    if channel is 'channel'
+        tmp = JSON.parse(message)
+        message =
+            content: tmp.tweetText
+            position:
+                lat: parseFloat(tmp.latitude)
+                lng: parseFloat(tmp.longitude)
+        console.log(message)
+        io.emit('world.tweet', message)
+    else if channel is 'ranking'
+        message = message.split('&&')
+        message.pop()
+        console.log(message)
+        io.emit('world.ranking', message)
 )
 
 http.listen(8080)
