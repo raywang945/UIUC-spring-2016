@@ -4,7 +4,9 @@ import {Component} from 'angular2/core';
   selector: 'global-rank',
   template: `
     <ol>
-      <li *ngFor='let rank of globalRank'>{{rank}}</li>
+      <li *ngFor='let rank of globalRank'>
+        <a href='https://twitter.com/hashtag/{{rank}}' target='_blank'>{{rank}}</a>
+      </li>
     </ol>
   `
 })

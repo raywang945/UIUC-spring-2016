@@ -24,9 +24,9 @@ app.engine('html', require('ejs').renderFile)
 
 app.get('/api/*', (req, res) ->
     if req.params['0'] is 'range_rank/'
-        drpcClient.execute('exclamation', JSON.stringify(req.query), (err, res2) ->
-            console.log(res2)
-            res.send(res2.substring(0, res2.length - 1))
+        tmp = req.query.west + '&&' + req.query.east + '&&' + req.query.south + '&&' + req.query.north
+        drpcClient.execute('DrpcServer', JSON.stringify(tmp), (err, res2) ->
+            res.send(res2.split('&&'))
         )
 )
 
@@ -35,7 +35,7 @@ app.get('/', (req, res) ->
 )
 
 subscriber.on('message', (channel, message) ->
-    console.log('==================')
+    #console.log('==================')
     if channel is 'geoTweet'
         tmp = JSON.parse(message)
         message =
@@ -43,12 +43,12 @@ subscriber.on('message', (channel, message) ->
             position:
                 lat: parseFloat(tmp.latitude)
                 lng: parseFloat(tmp.longitude)
-        console.log(message)
+        #console.log(message)
         io.emit('world.tweet', message)
     else if channel is 'globalRanking'
         message = message.split('&&')
         message.pop()
-        console.log(message)
+        #console.log(message)
         io.emit('world.ranking', message)
 )
 

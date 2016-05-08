@@ -8,9 +8,10 @@ function initMap() {
     streetViewControl: false
   });
   map.addListener('idle', function() {
+    template = _.template('<li><a href="https://twitter.com/hashtag/<%= hashtag %>" target="_blank"><%= hashtag %></a></li>');
     $.getJSON('/api/range_rank/', map.getBounds().toJSON(), function(json:any) {
-      $('#local-rank').html(_.reduce(json, function(memo:string, elem:string) {
-        return memo + '<li>' + elem + '</li>';
+      $('#local-rank').html(_.reduce(json, function(memo:any, elem:string) {
+        return memo + template({ hashtag: elem });
       }, ''));
     });
   });
@@ -29,6 +30,10 @@ System.import('scripts/main')
 
 var socket = io();
 socket.on('world.tweet', function(tweet:any) {
+  var bounds = map.getBounds().toJSON();
+  var lat = tweet.position.lat;
+  var lng = tweet.position.lng;
+  if (lat < bounds.south || lat > bounds.north || lng < bounds.west || lng > bounds.east) return;
   var marker = new google.maps.Marker({
     position: tweet.position,
     map: map
